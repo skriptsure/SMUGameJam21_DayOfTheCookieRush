@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour {
 	private bool isGrounded = false;
 	private int count = 0;
 
+	Camera cam;
+	private void Awake()
+	{
+		cam = FindObjectOfType<Camera>();
+	}
+
 	// At the start of the game..
 	void Start ()
 	{
@@ -48,6 +54,8 @@ public class PlayerController : MonoBehaviour {
 
 		// Create a Vector3 variable, and assign X and Z to feature our horizontal and vertical float variables above
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+		Quaternion rot = Quaternion.FromToRotation(Vector3.forward, Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up).normalized);
+		movement = rot * movement;
 
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
@@ -74,7 +82,9 @@ public class PlayerController : MonoBehaviour {
 			count = count + 1;
 
 			// Run the 'SetCountText()' function (see below)
-			SetCountText ();			
+			SetCountText ();
+
+			GameManager.DoPopUpText(transform.position, "we got it!");
 		}
 
 		// ..and if the game object we intersect has the tag 'Pick Up' assigned to it..

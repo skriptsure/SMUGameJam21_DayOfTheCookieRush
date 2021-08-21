@@ -33,6 +33,10 @@ public class CameraController : MonoBehaviour {
 		{
 			offset = Quaternion.Euler(Input.GetAxis("Mouse Y") * -1 * camRotSpeed, Input.GetAxis("Mouse X") * camRotSpeed, 0) * offset;
 		}
+		if (Input.GetJoystickNames().Length > 0)
+        {
+			offset = Quaternion.Euler(Input.GetAxis("RightStickVertical") * -1 * camRotSpeed, Input.GetAxis("RightStickHorizontal") * camRotSpeed, 0) * offset;
+		}
 		
 		currentPos = targetPos;
 		transform.position = targetPos + offset;
