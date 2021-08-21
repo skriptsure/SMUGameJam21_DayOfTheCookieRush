@@ -11,6 +11,7 @@ public class GrowthComponent : MonoBehaviour
     public AnimationCurve speed;
 
     public Text countText;
+    public float turnonPhysicsMultiplier = 2.0f;
 
     public int count = 0;
     private Rigidbody rb;
@@ -66,5 +67,24 @@ public class GrowthComponent : MonoBehaviour
     {
         // Update the text field of our 'countText' variable
         countText.text = "Count: " + count.ToString();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // Debug-draw all contact points and normals
+
+        Rigidbody otherBody = collision.gameObject.GetComponent<Rigidbody>();
+        if (otherBody)
+        {
+            if (rb.mass * turnonPhysicsMultiplier > otherBody.mass && otherBody.isKinematic)
+            {
+                otherBody.isKinematic = false;
+            }
+        }
+
+
+        // Play a sound if the colliding objects had a big impact.
+        //if (collision.relativeVelocity.magnitude > 2)
+        //    audioSource.Play();
     }
 }
