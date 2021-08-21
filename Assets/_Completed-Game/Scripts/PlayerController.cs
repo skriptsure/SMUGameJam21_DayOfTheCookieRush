@@ -8,13 +8,15 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 	
 	// Create public variables for player speed, and for the Text UI game objects
-	public float speed;
+	public float speed = 10;
+	public float jump = 5;
 	public Text countText;
 	public Text winText;
 
 	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
 	private Rigidbody rb;
-	private int count;
+	private bool isGrounded = false;
+	private int count = 0;
 
 	// At the start of the game..
 	void Start ()
@@ -32,6 +34,11 @@ public class PlayerController : MonoBehaviour {
 		winText.text = "";
 	}
 
+	void OnCollisionStay()
+	{
+		isGrounded = true;
+	}
+
 	// Each physics step..
 	void FixedUpdate ()
 	{
@@ -45,6 +52,12 @@ public class PlayerController : MonoBehaviour {
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
 		rb.AddForce (movement * speed);
+
+		if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+		{
+			rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
+			isGrounded = false;
+		}
 	}
 
 	// When this game object intersects a collider with 'is trigger' checked, 
