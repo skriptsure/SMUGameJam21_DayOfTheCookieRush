@@ -9,6 +9,8 @@ public class CameraController : MonoBehaviour {
 	// Store a Vector3 offset from the player (a distance to place the camera from the player at all times)
 	private Vector3 offset;
 
+	private float camRotSpeed = 3;
+
 	// At the start of the game..
 	void Start ()
 	{
@@ -16,11 +18,24 @@ public class CameraController : MonoBehaviour {
 		offset = transform.position - player.transform.position;
 	}
 
-	// After the standard 'Update()' loop runs, and just before each frame is rendered..
+	Vector3 targetPos;
+	Vector3 currentPos;
 	void LateUpdate ()
 	{
 		// Set the position of the Camera (the game object this script is attached to)
 		// to the player's position, plus the offset amount
-		transform.position = player.transform.position + offset;
+		targetPos = Vector3.Lerp(currentPos, player.transform.position, Time.deltaTime*5);
 	}
+
+    private void Update()
+    {
+		if (Input.GetButton("Fire2"))
+		{
+			offset = Quaternion.Euler(Input.GetAxis("Mouse Y") * -1 * camRotSpeed, Input.GetAxis("Mouse X") * camRotSpeed, 0) * offset;
+		}
+		
+		currentPos = targetPos;
+		transform.position = targetPos + offset;
+		transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
+    }
 }
