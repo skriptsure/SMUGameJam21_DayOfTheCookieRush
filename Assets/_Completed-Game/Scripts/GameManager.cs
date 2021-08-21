@@ -46,8 +46,7 @@ public class GameManager : MonoBehaviour
     }
     void CreateDialogueText(Sprite sprite, string text)
     {
-        if (PopUpDialogue.HideAllDialogues != null)
-            PopUpDialogue.HideAllDialogues();
+        PopUpDialogue.HideAllDialogues?.Invoke();
         GameObject go = GameObject.Instantiate(popUpDialoguePrefab);
         go.GetComponent<PopUpDialogue>().AssignText(text);
         go.GetComponent<PopUpDialogue>().AssignImage(sprite);
