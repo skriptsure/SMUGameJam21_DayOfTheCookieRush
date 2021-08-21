@@ -10,13 +10,11 @@ public class PlayerController : MonoBehaviour {
 	// Create public variables for player speed, and for the Text UI game objects
 	public float speed = 10;
 	public float jump = 5;
-	public Text countText;
 	public Text winText;
 
 	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
 	private Rigidbody rb;
 	private bool isGrounded = false;
-	private int count = 0;
 
 	Camera cam;
 	private void Awake()
@@ -29,12 +27,6 @@ public class PlayerController : MonoBehaviour {
 	{
 		// Assign the Rigidbody component to our private rb variable
 		rb = GetComponent<Rigidbody>();
-
-		// Set the count to zero 
-		count = 0;
-
-		// Run the SetCountText function to update the UI (see below)
-		SetCountText ();
 
 		// Set the text property of our Win Text UI to an empty string, making the 'You Win' (game over message) blank
 		winText.text = "";
@@ -72,35 +64,12 @@ public class PlayerController : MonoBehaviour {
 	// store a reference to that collider in a variable named 'other'..
 	void OnTriggerEnter(Collider other) 
 	{
-		// ..and if the game object we intersect has the tag 'Pick Up' assigned to it..
-		if (other.gameObject.CompareTag ("Pick Up"))
-		{
-			// Make the other game object (the pick up) inactive, to make it disappear
-			other.gameObject.SetActive (false);
-
-			// Add one to the score variable 'count'
-			count = count + 1;
-
-			// Run the 'SetCountText()' function (see below)
-			SetCountText ();
-
-			GameManager.DoPopUpText(transform.position, "we got it!");
-		}
-
-		// ..and if the game object we intersect has the tag 'Pick Up' assigned to it..
-		else if (other.gameObject.CompareTag("Victory"))
+		if (other.gameObject.CompareTag("Victory"))
 		{
 			// Make the other game object (the pick up) inactive, to make it disappear
 			other.gameObject.SetActive(false);
 
 			winText.text = "You Win!";
 		}
-	}
-
-	// Create a standalone function that can update the 'countText' UI and check if the required amount to win has been achieved
-	void SetCountText()
-	{
-		// Update the text field of our 'countText' variable
-		countText.text = "Count: " + count.ToString ();
 	}
 }
