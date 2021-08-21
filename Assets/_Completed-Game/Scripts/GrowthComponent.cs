@@ -78,6 +78,7 @@ public class GrowthComponent : MonoBehaviour
         {
             if (rb.mass * turnonPhysicsMultiplier > otherBody.mass && otherBody.isKinematic)
             {
+                Debug.Log("Turning off kinematic");
                 otherBody.isKinematic = false;
             }
         }
