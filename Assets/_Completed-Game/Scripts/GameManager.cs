@@ -14,9 +14,12 @@ public class GameManager : MonoBehaviour
     private static PlayerController _player;
 
     public static UnityAction<Vector3, string> DoPopUpText;
-    
+    public static UnityAction<Sprite, string> DoPopUpDialogue;
+
     [SerializeField]
     private GameObject popUpTextPrefab;
+    [SerializeField]
+    private GameObject popUpDialoguePrefab;
 
     private void Awake()
     {
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         DoPopUpText += CreatePopUpTextAtPosition;
+        DoPopUpDialogue += CreateDialogueText;
     }
 
     // Update is called once per frame
@@ -35,10 +39,18 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void CreatePopUpTextAtPosition(Vector3 position, string text) 
+    void CreatePopUpTextAtPosition(Vector3 position, string text)
     {
         GameObject go = GameObject.Instantiate(popUpTextPrefab, position, Quaternion.identity);
         go.GetComponent<PopUpText>().AssignText(text);
+    }
+    void CreateDialogueText(Sprite sprite, string text)
+    {
+        if (PopUpDialogue.HideAllDialogues != null)
+            PopUpDialogue.HideAllDialogues();
+        GameObject go = GameObject.Instantiate(popUpDialoguePrefab);
+        go.GetComponent<PopUpDialogue>().AssignText(text);
+        go.GetComponent<PopUpDialogue>().AssignImage(sprite);
     }
 
 }

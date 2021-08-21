@@ -28,8 +28,6 @@ public class PlayerController : MonoBehaviour {
 		// Assign the Rigidbody component to our private rb variable
 		rb = GetComponent<Rigidbody>();
 
-		// Set the text property of our Win Text UI to an empty string, making the 'You Win' (game over message) blank
-		winText.text = "";
 	}
 
 	void OnCollisionStay()
@@ -68,8 +66,8 @@ public class PlayerController : MonoBehaviour {
 		{
 			// Make the other game object (the pick up) inactive, to make it disappear
 			other.gameObject.SetActive(false);
-
-			winText.text = "You Win!";
 		}
+
+		GameManager.DoPopUpDialogue(null, "I collected a thing!");
 	}
 }
