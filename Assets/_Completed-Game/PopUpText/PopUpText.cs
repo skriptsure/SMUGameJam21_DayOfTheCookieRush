@@ -23,9 +23,9 @@ public class PopUpText : MonoBehaviour
     {
         transform.rotation = Quaternion.LookRotation(transform.position - cam.transform.position, Vector3.up);
         transform.position += Vector3.up * Time.deltaTime;
-        textUI.color = Color.Lerp(Color.white, Color.clear, Math.Max(alpha-1, 0));
+        textUI.color = Color.Lerp(Color.white, Color.clear, Math.Max(alpha-2, 0));
         alpha += Time.deltaTime;
-        if (alpha >= 2)
+        if (alpha >= 3)
             Destroy(gameObject);
     }
 

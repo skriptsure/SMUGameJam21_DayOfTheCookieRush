@@ -21,6 +21,22 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject popUpDialoguePrefab;
 
+
+    string[] cookiePickupTextOptions =
+    {
+        "Stop! You’ll overdoughse!",
+        "But I’m only half-baked!",
+        "I will rise again!",
+    };
+
+    string[] heroTextOptions =
+        {
+        "Crumble before me!",
+        "I shall not be licked!",
+        "Power my flour!",
+    };
+
+
     private void Awake()
     {
         _player = FindObjectOfType<PlayerController>();
@@ -39,15 +55,19 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void CreatePopUpTextAtPosition(Vector3 position, string text)
+    void CreatePopUpTextAtPosition(Vector3 position, string text = null)
     {
         GameObject go = GameObject.Instantiate(popUpTextPrefab, position, Quaternion.identity);
+        if (text == null)
+            text = cookiePickupTextOptions[Random.Range(0, cookiePickupTextOptions.Length)];
         go.GetComponent<PopUpText>().AssignText(text);
     }
-    void CreateDialogueText(Sprite sprite, string text)
+    void CreateDialogueText(Sprite sprite, string text = null)
     {
         PopUpDialogue.HideAllDialogues?.Invoke();
         GameObject go = GameObject.Instantiate(popUpDialoguePrefab);
+        if (text == null)
+            text = heroTextOptions[Random.Range(0, heroTextOptions.Length)];
         go.GetComponent<PopUpDialogue>().AssignText(text);
         go.GetComponent<PopUpDialogue>().AssignImage(sprite);
     }

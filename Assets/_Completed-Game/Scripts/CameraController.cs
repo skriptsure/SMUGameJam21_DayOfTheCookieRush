@@ -37,7 +37,10 @@ public class CameraController : MonoBehaviour {
         {
 			offset = Quaternion.Euler(Input.GetAxis("RightStickVertical") * -1 * camRotSpeed, Input.GetAxis("RightStickHorizontal") * camRotSpeed, 0) * offset;
 		}
-		
+
+		offset.Scale(Vector3.one * (1-Input.GetAxis("Mouse ScrollWheel")));
+        
+
 		currentPos = targetPos;
 		transform.position = targetPos + offset;
 		transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
