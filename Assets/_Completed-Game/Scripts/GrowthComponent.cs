@@ -80,6 +80,8 @@ public class GrowthComponent : MonoBehaviour
             {
                 Debug.Log("Turning off kinematic");
                 otherBody.isKinematic = false;
+                otherBody.velocity = rb.velocity * 3;
+                otherBody.angularVelocity = rb.velocity * 40;
             }
         }
 

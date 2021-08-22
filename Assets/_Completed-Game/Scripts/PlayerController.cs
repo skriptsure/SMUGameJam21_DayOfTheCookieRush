@@ -58,9 +58,20 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	// When this game object intersects a collider with 'is trigger' checked, 
-	// store a reference to that collider in a variable named 'other'..
-	void OnTriggerEnter(Collider other) 
+    private void OnCollisionEnter(Collision collision)
+    {
+		if (collision.rigidbody)
+			if (!collision.rigidbody.isKinematic)
+			{
+				collision.rigidbody.velocity = rb.velocity * 3;
+				collision.rigidbody.angularVelocity = rb.velocity * 30;
+			}
+    }
+
+
+    // When this game object intersects a collider with 'is trigger' checked, 
+    // store a reference to that collider in a variable named 'other'..
+    void OnTriggerEnter(Collider other) 
 	{
 		if (other.gameObject.CompareTag("Victory"))
 		{
@@ -70,6 +81,6 @@ public class PlayerController : MonoBehaviour {
 			winText.text = "You Win!";
 		}
 
-		//GameManager.DoPopUpDialogue(null, "I collected a thing!");
+		GameManager.DoPopUpText(transform.position, null);
 	}
 }

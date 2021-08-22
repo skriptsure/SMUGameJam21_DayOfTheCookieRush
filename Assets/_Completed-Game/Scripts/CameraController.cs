@@ -24,11 +24,13 @@ public class CameraController : MonoBehaviour {
 	{
 		// Set the position of the Camera (the game object this script is attached to)
 		// to the player's position, plus the offset amount
-		targetPos = Vector3.Lerp(currentPos, player.transform.position, Time.deltaTime*5);
+		
 	}
 
     private void Update()
     {
+		targetPos = Vector3.Lerp(currentPos, player.transform.position, Time.deltaTime * 5);
+
 		if (Input.GetButton("Fire2"))
 		{
 			offset = Quaternion.Euler(Input.GetAxis("Mouse Y") * -1 * camRotSpeed, Input.GetAxis("Mouse X") * camRotSpeed, 0) * offset;
